@@ -1,0 +1,30 @@
+services:
+
+  ipfs_node:
+    container_name: ipfs_node
+    image: ipfs/kubo:v0.34.1
+    ports:
+      - "4001:4001" # ipfs swarm
+      - "5001:5001" # ipfs api
+      - "8080:8080" # ipfs gateway
+    volumes:
+      - ./data/ipfs_data:/data/ipfs
+      - ./data/kubo_config:/kubo_config
+    command: ['daemon', '--init', '--init-config="kubo_config/config"', '--enable-namesys-pubsub']
+
+  ipfs_cluster:
+    container_name: ipfs_cluster
+    image: ipfs/ipfs-cluster@sha256:5df90b8d848a74a8505feb3684bf6d74ec6ab869e6f3de692b842f07c1a5ed1a
+    depends_on:
+      - ipfs_node
+    ports:
+      - "9094:9094" # http api
+      - "9095:9095" # proxy api
+      - "9096:9096" # cluster swarm, other peers connect via this port
+    volumes:
+      - ./data/ipfs_cluster_data:/data/ipfs-cluster
+    
+
+volumes:
+  ipfs_data:
+  ipfs_cluster_data:
