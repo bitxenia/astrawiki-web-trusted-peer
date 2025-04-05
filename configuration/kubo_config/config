@@ -1,12 +1,43 @@
 {
-  "Identity": {
-    "PeerID": "",
-    "PrivKey": ""
+  "API": {
+    "HTTPHeaders": {}
+  },
+  "Addresses": {
+    "API": "/ip4/0.0.0.0/tcp/5001",
+    "Announce": [],
+    "AppendAnnounce": [],
+    "Gateway": "/ip4/0.0.0.0/tcp/8080",
+    "NoAnnounce": [],
+    "Swarm": [
+      "/ip4/0.0.0.0/tcp/4001",
+      "/ip6/::/tcp/4001",
+      "/ip4/0.0.0.0/udp/4001/webrtc-direct",
+      "/ip4/0.0.0.0/udp/4001/quic-v1",
+      "/ip4/0.0.0.0/udp/4001/quic-v1/webtransport",
+      "/ip6/::/udp/4001/webrtc-direct",
+      "/ip6/::/udp/4001/quic-v1",
+      "/ip6/::/udp/4001/quic-v1/webtransport"
+    ]
+  },
+  "AutoNAT": {},
+  "AutoTLS": {},
+  "Bootstrap": [
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt",
+    "/dnsaddr/va1.bootstrap.libp2p.io/p2p/12D3KooWKnDdG3iXw9eTFijk3EWSunZcFi54Zka4wmtqtt6rPxc8",
+    "/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+    "/ip4/104.131.131.82/udp/4001/quic-v1/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa"
+  ],
+  "DNS": {
+    "Resolvers": {}
   },
   "Datastore": {
-    "StorageMax": "10GB",
-    "StorageGCWatermark": 90,
+    "BlockKeyCacheSize": null,
+    "BloomFilterSize": 0,
     "GCPeriod": "1h",
+    "HashOnRead": false,
     "Spec": {
       "mounts": [
         {
@@ -33,125 +64,94 @@
       ],
       "type": "mount"
     },
-    "HashOnRead": false,
-    "BloomFilterSize": 0,
-    "BlockKeyCacheSize": null
-  },
-  "Addresses": {
-    "Swarm": [
-      "/ip4/0.0.0.0/tcp/4001",
-      "/ip6/::/tcp/4001",
-      "/ip4/0.0.0.0/udp/4001/webrtc-direct",
-      "/ip4/0.0.0.0/udp/4001/quic-v1",
-      "/ip4/0.0.0.0/udp/4001/quic-v1/webtransport",
-      "/ip6/::/udp/4001/webrtc-direct",
-      "/ip6/::/udp/4001/quic-v1",
-      "/ip6/::/udp/4001/quic-v1/webtransport"
-    ],
-    "Announce": [],
-    "AppendAnnounce": [],
-    "NoAnnounce": [],
-    "API": "/ip4/127.0.0.1/tcp/5001",
-    "Gateway": "/ip4/127.0.0.1/tcp/8080"
-  },
-  "Mounts": {
-    "IPFS": "/ipfs",
-    "IPNS": "/ipns",
-    "FuseAllowOther": false
+    "StorageGCWatermark": 90,
+    "StorageMax": "10GB"
   },
   "Discovery": {
     "MDNS": {
       "Enabled": true
     }
   },
-  "Routing": {
-    "Routers": null,
-    "Methods": null
+  "Experimental": {
+    "FilestoreEnabled": false,
+    "Libp2pStreamMounting": false,
+    "OptimisticProvide": false,
+    "OptimisticProvideJobsPoolSize": 0,
+    "P2pHttpProxy": false,
+    "StrategicProviding": false,
+    "UrlstoreEnabled": false
   },
-  "Ipns": {
-    "RepublishPeriod": "",
-    "RecordLifetime": "",
-    "ResolveCacheSize": 128
-  },
-  "Bootstrap": [
-    "/dnsaddr/va1.bootstrap.libp2p.io/p2p/12D3KooWKnDdG3iXw9eTFijk3EWSunZcFi54Zka4wmtqtt6rPxc8",
-    "/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-    "/ip4/104.131.131.82/udp/4001/quic-v1/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-    "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
-    "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
-    "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb",
-    "/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt"
-  ],
   "Gateway": {
-    "HTTPHeaders": {},
-    "RootRedirect": "",
-    "NoFetch": false,
-    "NoDNSLink": false,
     "DeserializedResponses": null,
     "DisableHTMLErrors": null,
+    "ExposeRoutingAPI": null,
+    "HTTPHeaders": {},
+    "NoDNSLink": false,
+    "NoFetch": false,
     "PublicGateways": null,
-    "ExposeRoutingAPI": null
+    "RootRedirect": ""
   },
-  "API": {
-    "HTTPHeaders": {}
+  "Identity": {
+    "PeerID": "",
+    "PrivKey": ""
   },
-  "Swarm": {
-    "AddrFilters": null,
-    "DisableBandwidthMetrics": false,
-    "DisableNatPortMap": false,
-    "RelayClient": {},
-    "RelayService": {},
-    "Transports": {
-      "Network": {},
-      "Security": {},
-      "Multiplexers": {}
-    },
-    "ConnMgr": {},
-    "ResourceMgr": {}
+  "Import": {
+    "BatchMaxNodes": null,
+    "BatchMaxSize": null,
+    "CidVersion": null,
+    "HashFunction": null,
+    "UnixFSChunker": null,
+    "UnixFSRawLeaves": null
   },
-  "AutoNAT": {},
-  "AutoTLS": {},
-  "Pubsub": {
-    "Router": "",
-    "DisableSigning": false
-  },
-  "Peering": {
-    "Peers": null
-  },
-  "DNS": {
-    "Resolvers": {}
+  "Internal": {},
+  "Ipns": {
+    "RecordLifetime": "",
+    "RepublishPeriod": "",
+    "ResolveCacheSize": 128
   },
   "Migration": {
     "DownloadSources": [],
     "Keep": ""
   },
-  "Provider": {
-    "Strategy": ""
+  "Mounts": {
+    "FuseAllowOther": false,
+    "IPFS": "/ipfs",
+    "IPNS": "/ipns"
   },
-  "Reprovider": {},
-  "Experimental": {
-    "FilestoreEnabled": false,
-    "UrlstoreEnabled": false,
-    "Libp2pStreamMounting": false,
-    "P2pHttpProxy": false,
-    "StrategicProviding": false,
-    "OptimisticProvide": false,
-    "OptimisticProvideJobsPoolSize": 0
-  },
-  "Plugins": {
-    "Plugins": null
+  "Peering": {
+    "Peers": null
   },
   "Pinning": {
     "RemoteServices": {}
   },
-  "Import": {
-    "CidVersion": null,
-    "UnixFSRawLeaves": null,
-    "UnixFSChunker": null,
-    "HashFunction": null,
-    "BatchMaxNodes": null,
-    "BatchMaxSize": null
+  "Plugins": {
+    "Plugins": null
   },
-  "Version": {},
-  "Internal": {}
+  "Provider": {
+    "Strategy": ""
+  },
+  "Pubsub": {
+    "DisableSigning": false,
+    "Router": ""
+  },
+  "Reprovider": {},
+  "Routing": {
+    "Methods": null,
+    "Routers": null
+  },
+  "Swarm": {
+    "AddrFilters": null,
+    "ConnMgr": {},
+    "DisableBandwidthMetrics": false,
+    "DisableNatPortMap": false,
+    "RelayClient": {},
+    "RelayService": {},
+    "ResourceMgr": {},
+    "Transports": {
+      "Multiplexers": {},
+      "Network": {},
+      "Security": {}
+    }
+  },
+  "Version": {}
 }
