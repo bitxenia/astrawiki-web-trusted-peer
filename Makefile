@@ -18,3 +18,8 @@ down:
 logs:
 	docker compose -f $(COMPOSE_FILE) logs -f
 .PHONY: logs
+
+# Generate IPFS PeerID and private key for .env
+generate_ipfs_keys:
+	scripts/generate_ipfs_keys > keys
+.PHONY: generate_ipfs_keys
