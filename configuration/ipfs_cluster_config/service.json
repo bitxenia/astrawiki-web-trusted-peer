@@ -44,7 +44,7 @@
   "consensus": {
     "crdt": {
       "cluster_name": "bitxenia-wiki-cluster",
-      "trusted_peers": ["12D3KooWKj3yvdQ76dKtgcNYfer4piKoJqvDXCoxRvQ13EwFiToP"],
+      "trusted_peers": ["12D3KooWAhKphUopQEVyXyXZBh5z7DEPyKJGdzNjfyPhGsXRoBni"],
       "batching": {
         "max_batch_size": 0,
         "max_batch_age": "0s"

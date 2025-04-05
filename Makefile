@@ -5,6 +5,7 @@ COMPOSE_FILE = docker-compose.yml
 up:
 	python3 scripts/generate_kubo_config.py
 	python3 scripts/generate_ipfs_cluster_config.py
+	./scripts/build_custom_kubo.sh
 	docker compose -f $(COMPOSE_FILE) up -d
 .PHONY: up
 
