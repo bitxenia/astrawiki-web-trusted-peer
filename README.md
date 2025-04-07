@@ -50,7 +50,7 @@ Kills the running containers.
 
 Shows the log entries in both containers.
 
-### `make generate_ipfs_keys`
+### `make identity`
 
 Generates `PEER_ID` and `PRIV_KEY` values. Users creating a new network of
 trusted peers for their wiki should run this once and then copy the values
