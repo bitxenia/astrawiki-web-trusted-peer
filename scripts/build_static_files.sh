@@ -2,13 +2,9 @@
 
 WEBSITE_SRC_DIR="website"
 
-if [ -f "./.env" ]; then
-	. "./.env"
-fi
+[ -f "./.env" ] && . "./.env"
 
-if [ ! -d "${WEBSITE_SRC_DIR}" ]; then
-	mkdir -p "${WEBSITE_SRC_DIR}"
-fi
+mkdir -p "${WEBSITE_SRC_DIR}"
 
 cd "${WEBSITE_SRC_DIR}" || exit 1
 
@@ -22,25 +18,17 @@ if [ ! -d ".git" ]; then
 	echo "Clone complete"
 fi
 
-git fetch origin
-if ! git checkout --quiet "${MAIN_GIT_BRANCH}"; then
-	echo "Failed to checkout to main branch, make sure it's well defined"
-	exit 1
-fi
+git fetch origin --quiet
 
 REBUILD_NEEDED=false
 
-# Check for any staged or unstaged changes in the local directory, and stash them
-if ! git diff --quiet || ! git diff --cached --quiet; then
-	git stash
-	REBUILD_NEEDED=true
-	echo "Changes present in the website directory were stashed"
-fi
+# Stash any local changes
+git stash --quiet
 
 # Check if there's new upstream changes to pull
-if [ "$(git rev-parse "${MAIN_GIT_BRANCH}")" != "$(git rev-parse origin/"${MAIN_GIT_BRANCH}")" ]; then
+if ! git diff --quiet "${MAIN_GIT_BRANCH}" "origin/${MAIN_GIT_BRANCH}"; then
 	echo "New changes detected on the main branch, pulling..."
-	if ! git pull; then
+	if ! git pull --quiet; then
 		printf 'git pull failed, check for merge conflicts and run this command manually on the %s directory\n' "${WEBSITE_SRC_DIR}"
 		exit 1
 	fi
@@ -48,11 +36,13 @@ if [ "$(git rev-parse "${MAIN_GIT_BRANCH}")" != "$(git rev-parse origin/"${MAIN_
 	REBUILD_NEEDED=true
 fi
 
-if [ ! -d "${STATIC_DIR}" ]; then
-	REBUILD_NEEDED=true
-fi
+[ ! -d "${STATIC_DIR}" ] && REBUILD_NEEDED=true
 
 if [ "${REBUILD_NEEDED}" = "true" ]; then
+	if ! git checkout --quiet "${MAIN_GIT_BRANCH}"; then
+		echo "Failed to checkout to main branch, make sure it's well defined"
+		exit 1
+	fi
 	echo "Building static files..."
 	if ! eval "${BUILD_COMMAND}"; then
 		echo "Build failed"
@@ -60,6 +50,4 @@ if [ "${REBUILD_NEEDED}" = "true" ]; then
 	else
 		echo "Static files built"
 	fi
-else
-	echo "Static files already built"
 fi
