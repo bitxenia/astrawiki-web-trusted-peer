@@ -64,8 +64,7 @@ def inject_identity():
     priv_key = env.get("PRIVATE_KEY")
 
     if not peer_id or not priv_key:
-        print("Missing ID or PRIVATE_KEY in .env file.")
-        return
+        raise ValueError("Missing ID or PRIVATE_KEY in .env file.")
 
     config["id"] = peer_id
     config["private_key"] = priv_key
