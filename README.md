@@ -7,18 +7,17 @@ community-driven approach.
 
 ## Motivation
 
-This project was created to streamline the process of publishing a website to
-IPFS across multiple peers. This could be done using clusters, but it meant
-that upon new changes, pointing the IPNS entry to the new content was done
-manually. This removes the need for that added manual step, and automates the
-building of the content on top.
+This project streamlines the process of publishing a website to IPFS across
+multiple peers. While clusters can handle this, they require manually updating
+the IPNS entry with new content, while this eliminates the manual step and
+automatically builds the content on top.
 
 ## Features
 
 - Publishes static websites without server-centric infrastructure needed.
 - Keeps the website in sync with its git repository to maintain the CI/CD
   workflow from traditional web development.
-- Allows trusted community members to help host the website.
+- Enables trusted community members to help host the website.
 - Hosts bitxenia's Astrawiki by default.
 
 ## Prerequisites
@@ -38,6 +37,8 @@ This repository requires the following dependencies:
 - `docker-compose`: used to manage the containers.
 - `python3`: required for some scripts.
 
+It'll also require any tool used for building the website, for example `npm`.
+
 ## Installation
 
 1. Clone the repository:
@@ -50,20 +51,25 @@ This repository requires the following dependencies:
 
 ## Required environment variables
 
-- `PEER_ID` and `PRIV_KEY`: these variables determine the Kubo node's identity.
-  Every trusted peer should have the same identity variables.
+- `PEER_ID` and `PRIV_KEY`: determine the Kubo node's identity. Every trusted
+  peer should use the same identity variables.
 - `ID` and `PRIVATE_KEY`: [TODO]
-- `GIT_REPO_WEB_SSH_URL`: SSH URL used to clone and manage the frontend's code.
+- `REPO_GIT_ADDRESS`: SSH or HTTPS address used to clone and manage the
+  website's source code.
+- `MAIN_GIT_BRANCH`: name of the website's repo's main branch.
+- `BUILD_COMMAND`: command the script executes to build the website.
+- `STATIC_DIR`: stores the build static website files.
 
 ## Usage
 
 ### `make up`
 
-Builds and runs the Kubo node and the IPFS Cluster container in the background.
+Builds and runs the Kubo node, the IPFS Cluster container, and the git watcher
+service in the background.
 
 ### `make down`
 
-Kills the running containers.
+Kills the running services.
 
 ### `make logs`
 
@@ -76,6 +82,25 @@ trusted peers for their wiki should run this once and then copy the values
 across all trusted peers.
 
 ## Technical overview
+
+### IPNS
+
+IPNS is useful for keeping content reachable through a persistent CID, even
+when the content changes. This is ideal for pointing a web address to the IPNS
+entry, because it means the address doesn't have to change each time the
+content does.
+
+While this is an excellent feature, it lacks the ability to have
+multiple peers manage the same IPNS pointer. Because of that limitation, IPFS
+has to treat all the trusted Kubo nodes as the same node. Sharing a `PeerID`
+and `PrivKey` solves this, as it means all the trusted peers have the same
+identity and thus can update the IPNS pointer.
+
+## Cluster
+
+[TODO]
+
+### Git watcher
 
 [TODO]
 
