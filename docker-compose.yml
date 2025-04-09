@@ -1,5 +1,4 @@
 services:
-
   ipfs_node:
     container_name: ipfs_node
     image: custom_kubo:v0.34.1
@@ -9,6 +8,9 @@ services:
       - "8080:8080" # ipfs gateway
     volumes:
       - ./data/ipfs_data:/data/ipfs
+      - target:/target
+    networks:
+      - trusted_peer_net
 
   ipfs_cluster:
     container_name: ipfs_cluster
@@ -24,8 +26,27 @@ services:
       - "9096:9096" # cluster swarm, other peers connect via this port
     volumes:
       - ./data/ipfs_cluster_data:/data/ipfs-cluster
-    
+    networks:
+      - trusted_peer_net
+
+  watcher:
+    container_name: watcher
+    build:
+      context: .
+      dockerfile: ./watcher/Dockerfile
+    depends_on:
+      - ipfs_node
+      - ipfs_cluster
+    volumes:
+      - target:/usr/share/target
+      - ./data/ipns_data:/usr/share/ipns_data
+    networks:
+      - trusted_peer_net
+
+networks:
+  trusted_peer_net:
 
 volumes:
   ipfs_data:
   ipfs_cluster_data:
+  target:

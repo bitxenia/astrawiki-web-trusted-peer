@@ -57,8 +57,7 @@ It'll also require any tool used for building the website, for example `npm`.
 - `REPO_GIT_ADDRESS`: SSH or HTTPS address used to clone and manage the
   website's source code.
 - `MAIN_GIT_BRANCH`: name of the website's repo's main branch.
-- `BUILD_COMMAND`: command the script executes to build the website.
-- `STATIC_DIR`: stores the build static website files.
+- `BUILD_DIR`: stores the build static website files.
 
 ## Usage
 
@@ -100,9 +99,20 @@ identity and thus can update the IPNS pointer.
 
 [TODO]
 
-### Git watcher
+### Watcher
 
 [TODO]
+
+## Limitations
+
+- This project works exclusively for websites built using npm. Generalizing it to
+  work with any kind of project _might_ be included in the future.
+
+**Note:** the design of this project works with not just websites, but any kind of
+document library. An npm project still needs to be present though.
+
+- The git repo should be public, there's currently no way to grant the watcher
+  container access to an SSH key.
 
 ## Contributing
 

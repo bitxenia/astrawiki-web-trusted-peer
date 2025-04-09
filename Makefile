@@ -7,20 +7,24 @@ up:
 	python3 scripts/generate_kubo_config.py
 	python3 scripts/generate_ipfs_cluster_config.py
 	./scripts/build_custom_kubo.sh
-	./scripts/build_static_files.sh
-	@sh -c './scripts/start_git_watch.sh &'
 	docker compose -f $(COMPOSE_FILE) up -d
 .PHONY: up
 
 # Stop the services
 down:
 	docker compose -f $(COMPOSE_FILE) down
-	./scripts/stop_git_watch.sh
 .PHONY: down
 
 # Restart the services
 restart: down up
 .PHONY: restart
+
+build:
+	docker compose build
+.PHONY: build
+
+rebuild: down build up
+.PHONY: rebuild
 
 # View logs from the services
 logs:
@@ -29,5 +33,5 @@ logs:
 
 # Generate IPFS PeerID and private key for .env
 identity:
-	scripts/generate_identity.sh > identity
+	./scripts/generate_identity.sh
 .PHONY: identity
