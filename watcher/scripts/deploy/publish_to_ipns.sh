@@ -9,8 +9,6 @@ SCRIPTS_DIR="/usr/local/bin/scripts"
 
 RESPONSE=$(curl -s -X POST "${KUBO_API_ADDRESS}/name/publish?arg=/ipfs/$1")
 
-echo "Publish response: ${RESPONSE}"
-
 # Extract HTTP status code
 STATUS=$(echo "$RESPONSE" | jq -r '.Name' >/dev/null 2>&1 && echo 200 || echo 500)
 
