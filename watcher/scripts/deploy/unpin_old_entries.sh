@@ -7,7 +7,6 @@ set -e
 SCRIPTS_DIR="/usr/local/bin/scripts"
 . "${SCRIPTS_DIR}/constants.sh"
 
-# Unpin any old pins
 curl -s "${CLUSTER_API_ADDRESS}/pins" |
 	jq -r --arg exclude "$1" 'select(.cid != $exclude) | .cid' |
 	while IFS= read -r cid; do

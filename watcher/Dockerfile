@@ -1,4 +1,4 @@
-FROM node:23-alpine
+FROM alpine:latest
 
 # TODO: Add a way to add a SSH key for private repositories
 RUN apk add --no-cache curl jq git
