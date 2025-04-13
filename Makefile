@@ -7,6 +7,7 @@ up:
 	python3 scripts/generate_kubo_config.py
 	python3 scripts/generate_ipfs_cluster_config.py
 	./scripts/build_custom_kubo.sh
+	docker compose build
 	docker compose -f $(COMPOSE_FILE) up -d
 .PHONY: up
 
@@ -35,3 +36,13 @@ logs:
 identity:
 	./scripts/generate_identity.sh
 .PHONY: identity
+
+# Execute a shell in the IPFS Cluster container
+shell-cluster:
+	docker exec -it ipfs_cluster sh
+.PHONY: shell-cluster
+
+# Execute a shell in the IPFS container
+shell-ipfs:
+	docker exec -it ipfs_node sh
+.PHONY: shell-ipfs
