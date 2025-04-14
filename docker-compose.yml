@@ -8,7 +8,6 @@ services:
       - "8080:8080" # ipfs gateway
     volumes:
       - ./data/ipfs_data:/data/ipfs
-      - target:/target
     networks:
       - trusted_peer_net
 
@@ -26,6 +25,7 @@ services:
       - "9096:9096" # cluster swarm, other peers connect via this port
     volumes:
       - ./data/ipfs_cluster_data:/data/ipfs-cluster
+      - target:/usr/local/share/target
     networks:
       - trusted_peer_net
 

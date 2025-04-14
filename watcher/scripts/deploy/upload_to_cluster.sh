@@ -16,7 +16,7 @@ find "$TARGET_DIR" -type f | sort | while IFS= read -r file; do
 	RELPATH="${file#$TARGET_DIR/}"
 	printf '%s\n' "-F \"file=@${file};filename=${RELPATH}\"" >>"$TMP_FORM"
 done
-CMD="curl -s -X POST '${CLUSTER_API_ADDRESS}/add?wrap-with-directory=true&cid-version=1&local=true'"
+CMD="curl -s -X POST '${CLUSTER_API_ADDRESS}/add?wrap-with-directory=true&cid-version=1'"
 while IFS= read -r line; do
 	CMD="$CMD $line"
 done <"$TMP_FORM"
@@ -33,7 +33,6 @@ done
 # API call to add the target directory
 RESPONSE=$(eval "${CMD}")
 CID=$(echo "${RESPONSE}" | jq -r 'select(.name == "") | .cid')
-printf '\nResponse:\n %s\n\n' "${RESPONSE}" >&2
 
 if [ -z "${CID}" ] || [ "${CID}" = "null" ]; then
 	echo "Upload failed, no CID returned" >&2
