@@ -39,12 +39,20 @@
     "pin_only_on_trusted_peers": false,
     "pin_only_on_untrusted_peers": false,
     "disable_repinning": true,
-    "peer_addresses": []
+    "peer_addresses": [
+      "/ip4/181.167.193.209/tcp/9096/p2p/12D3KooWNb26LwhscGFtdxP11yjiiCYVQPrE83Nz8aeWRPBnt86V",
+      "/ip4/181.167.193.209/udp/9096/quic/p2p/12D3KooWNb26LwhscGFtdxP11yjiiCYVQPrE83Nz8aeWRPBnt86V",
+      "/ip4/190.245.180.10/tcp/9096/p2p/12D3KooWLwvWffGay6kL7HpVa8ograQkETX2jHkr8zzz1yPcuZJR",
+      "/ip4/190.245.180.10/udp/9096/quic/p2p/12D3KooWLwvWffGay6kL7HpVa8ograQkETX2jHkr8zzz1yPcuZJR"
+    ]
   },
   "consensus": {
     "crdt": {
       "cluster_name": "bitxenia-wiki-cluster",
-      "trusted_peers": ["12D3KooWAhKphUopQEVyXyXZBh5z7DEPyKJGdzNjfyPhGsXRoBni"],
+      "trusted_peers": [
+        "12D3KooWNb26LwhscGFtdxP11yjiiCYVQPrE83Nz8aeWRPBnt86V",
+        "12D3KooWLwvWffGay6kL7HpVa8ograQkETX2jHkr8zzz1yPcuZJR"
+      ],
       "batching": {
         "max_batch_size": 0,
         "max_batch_age": "0s"
