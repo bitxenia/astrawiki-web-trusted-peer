@@ -16,7 +16,7 @@ cd "${SRC_DIR}" || exit 1
 git config --global url."https://github.com/".insteadOf git@github.com:
 
 if [ ! -d ".git" ]; then
-	if ! git clone --quiet "${REPO_GIT_ADDRESS}" .; then
+	if ! git clone --quiet "${CONTENT_GIT_ADDRESS}" .; then
 		echo "Failed to clone git repository" >&2
 		exit 1
 	fi
@@ -26,7 +26,7 @@ fi
 
 git fetch origin --quiet
 
-if ! git diff --quiet "${MAIN_GIT_BRANCH}" "origin/${MAIN_GIT_BRANCH}"; then
+if ! git diff --quiet "${CONTENT_GIT_BRANCH}" "origin/${CONTENT_GIT_BRANCH}"; then
 	if ! git pull --quiet; then
 		echo "Failed to pull git repository" >&2
 		exit 1
