@@ -1,19 +1,30 @@
 #!/bin/sh
 
-# Deploys target directory to IPFS
+# Deploys target directories (both content and service) to IPFS
 
 set -e
 
 SCRIPTS_DIR="/usr/local/bin/scripts"
 . "${SCRIPTS_DIR}/constants.sh"
 
-CID=$("${SCRIPTS_DIR}/deploy/upload_to_cluster.sh")
-printf 'Added to cluster with CID %s\n' "${CID}"
+CONTENT_CID=$("${SCRIPTS_DIR}/deploy/upload_dir_to_cluster.sh" "$1")
+printf 'Added content to cluster with CID %s\n' "${CONTENT_CID}"
 
-"${SCRIPTS_DIR}/deploy/unpin_old_entries.sh" "${CID}"
-"${SCRIPTS_DIR}/deploy/wait_for_peers.sh" "${CID}"
-printf 'All peers have pinned %s\n' "${CID}"
+ls "$2"
+SERVICE_CID=$("${SCRIPTS_DIR}/deploy/upload_file_to_cluster.sh" "$2/service.json")
+printf 'Added service.json to cluster with CID %s\n' "${SERVICE_CID}"
+
+"${SCRIPTS_DIR}/deploy/unpin_old_entries.sh" "${CONTENT_CID}" "${SERVICE_CID}"
+
+"${SCRIPTS_DIR}/deploy/wait_for_peers.sh" "${CONTENT_CID}"
+printf 'All peers have pinned %s\n' "${CONTENT_CID}"
+
+"${SCRIPTS_DIR}/deploy/wait_for_peers.sh" "${SERVICE_CID}"
+printf 'All peers have pinned %s\n' "${SERVICE_CID}"
 
 # Update the IPNS name
-IPNS_NAME=$("${SCRIPTS_DIR}/deploy/publish_to_ipns.sh" "${CID}")
-printf 'Published directory to IPNS name %s\n' "${IPNS_NAME}"
+CONTENT_KEY_NAME='content'
+SERVICE_KEY_NAME='service'
+
+"${SCRIPTS_DIR}/deploy/publish_to_ipns.sh" "${CONTENT_CID}" "${CONTENT_KEY_NAME}"
+"${SCRIPTS_DIR}/deploy/publish_to_ipns.sh" "${SERVICE_CID}" "${SERVICE_KEY_NAME}"
