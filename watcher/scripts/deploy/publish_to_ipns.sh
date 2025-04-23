@@ -8,8 +8,8 @@ SCRIPTS_DIR="/usr/local/bin/scripts"
 . "${SCRIPTS_DIR}/constants.sh"
 
 # Check if key generation is needed
-RESPONSE=$(curl -s "${KUBO_API_ADDRESS}/key/list")
-GEN_NEEDED=$(jq --arg name "$2" 'any(.Keys[]; .Name == $name)')
+RESPONSE=$(curl -s -X POST "${KUBO_API_ADDRESS}/key/list")
+GEN_NEEDED=$(echo "$RESPONSE" | jq --arg name "$2" '(.Keys | length == 0) or (all(.Keys[]; .Name != $name))')
 
 if [ "${GEN_NEEDED}" = true ]; then
 	STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${KUBO_API_ADDRESS}/key/gen?arg=$2")
