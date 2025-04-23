@@ -11,7 +11,7 @@ trap 'rm -f "$TMP_FORM"' EXIT
 
 # Build the curl -F args dynamically
 >"$TMP_FORM"
-TARGET_DIR="${TARGET_DIR%/}"
+TARGET_DIR="${1%/}"
 find "$TARGET_DIR" -type f | sort | while IFS= read -r file; do
 	RELPATH="${file#$TARGET_DIR/}"
 	printf '%s\n' "-F \"file=@${file};filename=${RELPATH}\"" >>"$TMP_FORM"

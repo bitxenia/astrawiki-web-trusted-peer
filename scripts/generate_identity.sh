@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 BASE_DIR=$(cd "$(dirname "$0")" && pwd)
 DATA_DIR="${BASE_DIR}/data"
 CONFIG_FILE="${DATA_DIR}/config"
@@ -16,8 +18,8 @@ sudo rm -rf "${DATA_DIR}" >/dev/null 2>&1
 docker run -d \
 	--name "${CONTAINER_NAME}" \
 	-v "${DATA_DIR}:/data/ipfs" \
-	ipfs/kubo:v0.34.1 daemon --init \
-	>/dev/null 2>&1
+	ipfs/kubo:v0.34.1 daemon --init
+>/dev/null 2>&1
 
 while [ ! -f "${CONFIG_FILE}" ]; do
 	sleep 1

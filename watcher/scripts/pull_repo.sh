@@ -2,6 +2,8 @@
 
 # Checks if git cloning/pulling is necessary, performs the operation, and
 # returns true if it was needed.
+#
+# Parameters: git repo address, git repo branch, source directory
 
 set -e
 
@@ -9,14 +11,16 @@ SCRIPTS_DIR="/usr/local/bin/scripts"
 . "${SCRIPTS_DIR}/constants.sh"
 . "${SCRIPTS_DIR}/.env"
 
-mkdir -p "${SRC_DIR}"
+REPO_ADDRESS="$1"
+REPO_BRANCH="$2"
+SRC_DIR="$3"
 
 cd "${SRC_DIR}" || exit 1
 
 git config --global url."https://github.com/".insteadOf git@github.com:
 
 if [ ! -d ".git" ]; then
-	if ! git clone --quiet "${REPO_GIT_ADDRESS}" .; then
+	if ! git clone --quiet "${REPO_ADDRESS}" .; then
 		echo "Failed to clone git repository" >&2
 		exit 1
 	fi
@@ -26,7 +30,7 @@ fi
 
 git fetch origin --quiet
 
-if ! git diff --quiet "${MAIN_GIT_BRANCH}" "origin/${MAIN_GIT_BRANCH}"; then
+if ! git diff --quiet "${REPO_BRANCH}" "origin/${REPO_BRANCH}"; then
 	if ! git pull --quiet; then
 		echo "Failed to pull git repository" >&2
 		exit 1
