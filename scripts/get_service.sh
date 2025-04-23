@@ -16,6 +16,7 @@ if [ -n "${SERVICE_GIT_BRANCH}" ]; then
 	cd "${TMP_DIR}"
 	git clone "${SERVICE_GIT_ADDRESS}" .
 	git checkout --quiet "${SERVICE_GIT_BRANCH}"
+	mkdir -p "${cwd}/data/ipfs_cluster_data/"
 	mv "./service.json" "${cwd}/data/ipfs_cluster_data/"
 else
 	echo "Copying existing service.json to shared volume..."
