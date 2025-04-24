@@ -7,8 +7,8 @@ set -e
 BASE_DIR=$(cd "$(dirname "$0")" && pwd)
 KEYS_DIR="$(pwd)/configuration/ipns_keys"
 DATA_DIR="${BASE_DIR}/data"
-KEY1_NAME="key1"
-KEY2_NAME="key2"
+KEY1_NAME="content"
+KEY2_NAME="service"
 
 sudo rm -rf "${DATA_DIR}" >/dev/null 2>&1
 mkdir -p "${KEYS_DIR}"

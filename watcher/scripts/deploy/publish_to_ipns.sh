@@ -7,16 +7,20 @@ set -e
 SCRIPTS_DIR="/usr/local/bin/scripts"
 . "${SCRIPTS_DIR}/constants.sh"
 
-# Check if key generation is needed
-RESPONSE=$(curl -s -X POST "${KUBO_API_ADDRESS}/key/list")
-GEN_NEEDED=$(echo "$RESPONSE" | jq --arg name "$2" '(.Keys | length == 0) or (all(.Keys[]; .Name != $name))')
+IPNS_KEYS_DIR="/usr/share/ipns_data/ipns_keys"
 
-if [ "${GEN_NEEDED}" = true ]; then
-	STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${KUBO_API_ADDRESS}/key/gen?arg=$2")
-	if [ "${STATUS}" -ne 200 ]; then
-		echo "Failed to generate IPNS key with status ${STATUS}"
+# Check if key import is needed
+RESPONSE=$(curl -s -X POST "${KUBO_API_ADDRESS}/key/list")
+IMPORT_NEEDED=$(echo "$RESPONSE" | jq --arg name "$2" '(.Keys | length == 0) or (all(.Keys[]; .Name != $name))')
+
+if [ "${IMPORT_NEEDED}" = true ]; then
+	RESPONSE=$(curl -s -X POST -F "file=@${IPNS_KEYS_DIR}/$2.key" "${KUBO_API_ADDRESS}/key/import?arg=$2")
+	NAME=$(echo "${RESPONSE}" | jq -r '.Name')
+	if [ "${NAME}" != "$2" ]; then
+		echo "Failed to import IPNS key with response ${RESPONSE}"
 		exit 1
 	fi
+	printf 'IPNS key "%s.key" imported\n' "${NAME}"
 fi
 
 RESPONSE=$(curl -s -X POST "${KUBO_API_ADDRESS}/name/publish?arg=/ipfs/$1&ttl=1m&key=$2")

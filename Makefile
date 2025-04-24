@@ -6,6 +6,7 @@ up:
 	@test -f .env || (echo ".env file is missing!" && exit 1)
 	./scripts/get_service.sh
 	./scripts/generate_cluster_identity.sh
+	./scripts/copy_ipns_keys.sh
 	docker compose -f $(COMPOSE_FILE) up -d --build
 .PHONY: up
 

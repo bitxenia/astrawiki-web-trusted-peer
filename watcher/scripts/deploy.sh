@@ -10,7 +10,6 @@ SCRIPTS_DIR="/usr/local/bin/scripts"
 CONTENT_CID=$("${SCRIPTS_DIR}/deploy/upload_dir_to_cluster.sh" "$1")
 printf 'Added content to cluster with CID %s\n' "${CONTENT_CID}"
 
-ls "$2"
 SERVICE_CID=$("${SCRIPTS_DIR}/deploy/upload_file_to_cluster.sh" "$2/service.json")
 printf 'Added service.json to cluster with CID %s\n' "${SERVICE_CID}"
 
