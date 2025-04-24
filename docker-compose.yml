@@ -1,7 +1,7 @@
 services:
   ipfs_node:
     container_name: ipfs_node
-    image: custom_kubo:v0.34.1
+    image: ipfs/kubo:v0.34.1
     ports:
       - "4001:4001" # ipfs swarm
       - "5001:5001" # ipfs api

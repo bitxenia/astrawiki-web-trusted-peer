@@ -35,9 +35,6 @@ This repository requires the following dependencies:
 - `make`: executes the different available commands.
 - `docker`: runs the Kubo and IPFS Cluster containers.
 - `docker-compose`: used to manage the containers.
-- `python3`: required for some scripts.
-
-It'll also require any tool used for building the website, for example `npm`.
 
 ## Installation
 
@@ -51,12 +48,10 @@ It'll also require any tool used for building the website, for example `npm`.
 
 ## Required environment variables
 
-- `PEER_ID` and `PRIV_KEY`: determine the Kubo node's identity. Every trusted
-  peer should use the same identity variables.
-- `ID` and `PRIVATE_KEY`: [TODO]
-- `REPO_GIT_ADDRESS`: SSH or HTTPS address used to clone and manage the
-  website's source code.
-- `MAIN_GIT_BRANCH`: name of the website's repo's main branch.
+- `ID` and `PRIVATE_KEY`: ID fields for the Cluster node.
+- `CONTENT_GIT_ADDRESS`: SSH or HTTPS address used to clone and manage the
+  content's source code.
+- `CONTENT_GIT_BRANCH`: name of the website's repo's main branch.
 - `BUILD_DIR`: stores the build static website files.
 
 ## Usage
@@ -79,6 +74,10 @@ Shows the log entries in both containers.
 Generates `PEER_ID` and `PRIV_KEY` values. Users creating a new network of
 trusted peers for their wiki should run this once and then copy the values
 across all trusted peers.
+
+### `make ipns_keys`
+
+Generates two IPNS private keys
 
 ## Technical overview
 

@@ -4,12 +4,9 @@ COMPOSE_FILE = docker-compose.yml
 # Start the services with Docker Compose
 up:
 	@test -f .env || (echo ".env file is missing!" && exit 1)
-	python3 scripts/generate_kubo_config.py
 	./scripts/get_service.sh
 	./scripts/generate_cluster_identity.sh
-	./scripts/build_custom_kubo.sh
-	docker compose build
-	docker compose -f $(COMPOSE_FILE) up -d
+	docker compose -f $(COMPOSE_FILE) up -d --build
 .PHONY: up
 
 # Stop the services
@@ -20,13 +17,6 @@ down:
 # Restart the services
 restart: down up
 .PHONY: restart
-
-build:
-	docker compose build
-.PHONY: build
-
-rebuild: down build up
-.PHONY: rebuild
 
 # View logs from the services
 logs:
