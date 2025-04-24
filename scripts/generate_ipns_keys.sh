@@ -5,7 +5,7 @@
 set -e
 
 BASE_DIR=$(cd "$(dirname "$0")" && pwd)
-KEYS_DIR="$(pwd)/configuration/ipns_keys"
+KEYS_DIR="$(pwd)/ipns_keys"
 DATA_DIR="${BASE_DIR}/data"
 KEY1_NAME="content"
 KEY2_NAME="service"

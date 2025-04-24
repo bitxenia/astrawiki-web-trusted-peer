@@ -44,7 +44,7 @@ This repository requires the following dependencies:
    git clone git@github.com:bitxenia/astrawiki-web-trusted-peer.git
    ```
 
-2. Create a `.env` file based on the `.env.example` file.
+2. Run `make init` to get started.
 
 ## Required environment variables
 
@@ -55,6 +55,10 @@ This repository requires the following dependencies:
 - `BUILD_DIR`: stores the build static website files.
 
 ## Usage
+
+### `make init`
+
+Generates initial configuration.
 
 ### `make up`
 

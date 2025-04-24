@@ -1,6 +1,11 @@
 # Variables
 COMPOSE_FILE = docker-compose.yml
 
+# Initialize configuration
+init:
+	./scripts/init_config.sh
+.PHONY: init
+
 # Start the services with Docker Compose
 up:
 	@test -f .env || (echo ".env file is missing!" && exit 1)

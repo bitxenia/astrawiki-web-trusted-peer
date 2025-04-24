@@ -2,7 +2,7 @@
 
 set -e
 
-KEYS_DIR='./configuration/ipns_keys'
+KEYS_DIR='./ipns_keys'
 CONTENT_KEY_NAME='content.key'
 SERVICE_KEY_NAME='service.key'
 DATA_DIR='./data/ipns_data/ipns_keys'
