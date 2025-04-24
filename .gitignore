@@ -3,3 +3,4 @@
 # Data folder
 /data
 /configuration/ipfs_cluster_config
+/configuration/ipns_keys

@@ -38,6 +38,11 @@ identity:
 	./scripts/generate_identity.sh
 .PHONY: identity
 
+# Generate IPNS keys
+ipns_keys:
+	./scripts/generate_ipns_keys.sh
+.PHONY: ipns_keys
+
 # Execute a shell in the IPFS Cluster container
 shell-cluster:
 	docker exec -it ipfs_cluster sh
