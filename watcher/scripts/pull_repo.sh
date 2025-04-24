@@ -28,7 +28,14 @@ if [ ! -d ".git" ]; then
 	exit 0
 fi
 
-git fetch origin --quiet
+if ! git fetch origin --quiet; then
+	echo "Failed to fetch from repository: ${REPO_ADDRESS}" >&2
+	exit 1
+fi
+if ! git checkout --quiet "${REPO_BRANCH}"; then
+	echo "Failed to checkout to branch ${REPO_BRANCH} in ${REPO_ADDRESS}" >&2
+	exit 1
+fi
 
 if ! git diff --quiet "${REPO_BRANCH}" "origin/${REPO_BRANCH}"; then
 	if ! git pull --quiet; then
