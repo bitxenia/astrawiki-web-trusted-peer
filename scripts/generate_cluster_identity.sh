@@ -2,23 +2,17 @@
 
 set -e
 
-CONFIG_DIR='./configuration/ipfs_cluster_config'
-SAVED_IDENTITY_PATH="${CONFIG_DIR}/identity.json"
-TARGET_IDENTITY_PATH='./data/ipfs_cluster_data/identity.json'
+CLUSTER_DATA_PATH='./data/ipfs_cluster_data'
+IDENTITY_FILE="${CLUSTER_DATA_PATH}/identity.json"
 
-if [ ! -f "${SAVED_IDENTITY_PATH}" ]; then
-	echo 'Identity not found, generating...'
-	RESPONSE=$('./scripts/generate_identity.sh')
+. ./.env
 
-	PEER_ID=$(echo "${RESPONSE}" | grep 'PeerId' | cut -d' ' -f2)
-	PRIVATE_KEY=$(echo "${RESPONSE}" | grep 'PrivKey' | cut -d' ' -f2)
-	if [ -z "${PEER_ID}" ] || [ -z "${PRIVATE_KEY}" ]; then
-		echo 'Failed to generate identity'
-		exit 1
-	fi
-	mkdir -p "${CONFIG_DIR}"
-	printf '{"id": "%s", "private_key": "%s"}\n' "${PEER_ID}" "${PRIVATE_KEY}" >"${SAVED_IDENTITY_PATH}"
+if [ -z "${ID}" ] || [ -z "${PRIVATE_KEY}" ]; then
+	echo 'Identity variables not found in .env'
+	exit 1
 fi
 
-cp "${SAVED_IDENTITY_PATH}" "${TARGET_IDENTITY_PATH}"
+mkdir -p "${CLUSTER_DATA_PATH}"
+printf '{"id": "%s", "private_key": "%s"}' "${ID}" "${PRIVATE_KEY}" >"${IDENTITY_FILE}"
+
 echo "identity.json ready."
