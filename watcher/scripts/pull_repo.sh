@@ -20,7 +20,7 @@ cd "${SRC_DIR}" || exit 1
 git config --global url."https://github.com/".insteadOf git@github.com:
 
 if [ ! -d ".git" ]; then
-	if ! git clone --quiet "${REPO_ADDRESS}" .; then
+	if ! git clone --quiet "${REPO_ADDRESS}" --branch "${REPO_BRANCH}" --single-branch .; then
 		echo "Failed to clone git repository" >&2
 		exit 1
 	fi
@@ -30,10 +30,6 @@ fi
 
 if ! git fetch origin --quiet; then
 	echo "Failed to fetch from repository: ${REPO_ADDRESS}" >&2
-	exit 1
-fi
-if ! git checkout --quiet "${REPO_BRANCH}"; then
-	echo "Failed to checkout to branch ${REPO_BRANCH} in ${REPO_ADDRESS}" >&2
 	exit 1
 fi
 

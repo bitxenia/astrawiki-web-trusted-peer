@@ -20,7 +20,9 @@ while :; do
 
 	if [ "${CONTENT_DEPLOY_NEEDED}" = true ] || [ "$SERVICE_DEPLOY_NEEDED" = true ]; then
 		echo "Change detected, re-deploy needed"
-		cp -r "${CONTENT_SOURCE_DIR}/${BUILD_DIR}/." "${CONTENT_TARGET_DIR}/"
+		cp -r "${CONTENT_SOURCE_DIR}/." "${CONTENT_TARGET_DIR}/"
+		rm -rf "${CONTENT_TARGET_DIR}/.git"
+		ls -l -a "${CONTENT_TARGET_DIR}"
 		cp -r "${SERVICE_SOURCE_DIR}/." "${SERVICE_TARGET_DIR}/"
 		"${SCRIPTS_DIR}/deploy.sh" "${CONTENT_TARGET_DIR}" "${SERVICE_TARGET_DIR}"
 	else
