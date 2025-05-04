@@ -21,15 +21,6 @@ while IFS= read -r line; do
 	CMD="$CMD $line"
 done <"$TMP_FORM"
 
-# Check until Cluster container is up
-while :; do
-	STATUS=$(curl -o /dev/null -w "%{http_code}" -s "${CLUSTER_API_ADDRESS}/health" || echo 0)
-	if [ "${STATUS}" = "204" ]; then
-		break
-	fi
-	sleep 1
-done
-
 # API call to add the target directory
 RESPONSE=$(eval "${CMD}")
 CID=$(echo "${RESPONSE}" | jq -r 'select(.name == "") | .cid')

@@ -26,8 +26,12 @@ restart: down up
 
 # View logs from the services
 logs:
-	docker compose -f $(COMPOSE_FILE) logs -f
+	docker compose -f $(COMPOSE_FILE) logs -t -f
 .PHONY: logs
+
+logs_watcher:
+	docker compose -f $(COMPOSE_FILE) logs watcher -t -f
+.PHONY: logs_watcher
 
 # Generate IPFS PeerID and private key for .env
 identity:

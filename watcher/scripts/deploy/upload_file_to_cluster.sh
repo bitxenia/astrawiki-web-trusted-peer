@@ -12,15 +12,6 @@ if [ ! -f "$FILE_PATH" ]; then
 	exit 1
 fi
 
-# Check until Cluster container is up
-while :; do
-	STATUS=$(curl -o /dev/null -w "%{http_code}" -s "${CLUSTER_API_ADDRESS}/health" || echo 0)
-	if [ "${STATUS}" = "204" ]; then
-		break
-	fi
-	sleep 1
-done
-
 # API call to add the target directory
 RESPONSE=$(curl -s -X POST -F "file=@${FILE_PATH};filename=$(basename "${FILE_PATH}")" "${CLUSTER_API_ADDRESS}/add?cid-version=1")
 CID=$(echo "${RESPONSE}" | jq -r '.cid')

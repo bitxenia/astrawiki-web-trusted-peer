@@ -14,6 +14,10 @@ CONTENT_TARGET_DIR="/usr/local/share/content-target"
 SERVICE_SOURCE_DIR="/usr/local/share/service-src"
 mkdir "${SERVICE_SOURCE_DIR}"
 SERVICE_TARGET_DIR="/usr/local/share/service-target"
+
+"${SCRIPTS_DIR}/wait_for_kubo.sh"
+"${SCRIPTS_DIR}/wait_for_cluster.sh"
+
 while :; do
 	CONTENT_DEPLOY_NEEDED=$("${SCRIPTS_DIR}/pull_repo.sh" "${CONTENT_GIT_ADDRESS}" "${CONTENT_GIT_BRANCH}" "${CONTENT_SOURCE_DIR}")
 	SERVICE_DEPLOY_NEEDED=$("${SCRIPTS_DIR}/pull_repo.sh" "${SERVICE_GIT_ADDRESS}" "${SERVICE_GIT_BRANCH}" "${SERVICE_SOURCE_DIR}")
@@ -24,6 +28,7 @@ while :; do
 		rm -rf "${CONTENT_TARGET_DIR}/.git"
 		cp -r "${SERVICE_SOURCE_DIR}/." "${SERVICE_TARGET_DIR}/"
 		"${SCRIPTS_DIR}/deploy.sh" "${CONTENT_TARGET_DIR}" "${SERVICE_TARGET_DIR}"
+		echo "Changes deployed"
 	else
 		echo "Build not needed, skipping..."
 	fi
