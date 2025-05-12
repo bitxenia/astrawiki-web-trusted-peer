@@ -24,19 +24,30 @@ readonly SERVICE_TARGET_DIR
 "${SCRIPTS_DIR}/wait_for_kubo.sh"
 "${SCRIPTS_DIR}/wait_for_cluster.sh"
 
+content_commit=""
+
+update_content_commit() {
+	old_pwd=$(pwd)
+	cd "${CONTENT_SOURCE_DIR}"
+	content_commit=$(git log -n 1 --pretty=format:"%h")
+	cd "${old_pwd}"
+}
+
 while :; do
 	content_deploy_needed=$("${SCRIPTS_DIR}/pull_repo.sh" "${CONTENT_GIT_ADDRESS}" "${CONTENT_GIT_BRANCH}" "${CONTENT_SOURCE_DIR}")
 	service_deploy_needed=$("${SCRIPTS_DIR}/pull_repo.sh" "${SERVICE_GIT_ADDRESS}" "${SERVICE_GIT_BRANCH}" "${SERVICE_SOURCE_DIR}")
 
 	if [ "${content_deploy_needed}" = true ] || [ "$service_deploy_needed" = true ]; then
 		echo "Change detected, re-deploy needed"
+		update_content_commit
+		echo "New commit: ${content_commit}"
 		cp -r "${CONTENT_SOURCE_DIR}/." "${CONTENT_TARGET_DIR}/"
 		rm -rf "${CONTENT_TARGET_DIR}/.git"
 		cp -r "${SERVICE_SOURCE_DIR}/." "${SERVICE_TARGET_DIR}/"
 		"${SCRIPTS_DIR}/deploy.sh" "${CONTENT_TARGET_DIR}" "${SERVICE_TARGET_DIR}"
 		echo "Changes deployed"
 	else
-		echo "Build not needed, skipping..."
+		printf 'Build not needed (content commit %s), skipping...\n' "${content_commit}"
 	fi
 	sleep 60
 done
