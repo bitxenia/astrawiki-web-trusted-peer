@@ -41,6 +41,8 @@ if ! git diff --quiet "${repo_branch}" "origin/${repo_branch}"; then
 		echo "Trying again in 10 seconds..." >&2
 		sleep 10
 	done
+	printf "true"
+	exit 0
 fi
 
 printf "false"
