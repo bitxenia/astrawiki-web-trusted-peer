@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 # TODO: Add a way to add a SSH key for private repositories
-RUN apk add --no-cache curl jq git
+RUN apk add --no-cache curl jq git time
 
 COPY ./watcher/scripts/ /usr/local/bin/scripts/
 COPY .env /usr/local/bin/scripts/
