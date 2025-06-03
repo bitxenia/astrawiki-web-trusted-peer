@@ -3,3 +3,6 @@
 # Data folder
 /data
 /ipns_keys
+
+# Metrics
+/metrics

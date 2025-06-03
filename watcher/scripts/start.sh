@@ -2,9 +2,9 @@
 
 # Starts watcher service
 
-echo "Watcher started"
-
 set -e
+
+echo "Watcher started"
 
 SCRIPTS_DIR="/usr/local/bin/scripts"
 . "${SCRIPTS_DIR}/constants.sh"
@@ -35,11 +35,14 @@ update_content_commit() {
 	cd "${old_pwd}"
 }
 
+mkdir -p "${METRICS_DIR}"
+printf '\nRun results:\n' >>"${METRICS_FILE}"
+
 while :; do
 	echo "Pulling content repo..."
-	content_deploy_needed=$(/usr/bin/time -f 'content-pull: %e\n' "${SCRIPTS_DIR}/pull_repo.sh" "${CONTENT_GIT_ADDRESS}" "${CONTENT_GIT_BRANCH}" "${CONTENT_SOURCE_DIR}")
+	content_deploy_needed=$(/usr/bin/time -f 'content-pull: %e' -a -o "${METRICS_FILE}" "${SCRIPTS_DIR}/pull_repo.sh" "${CONTENT_GIT_ADDRESS}" "${CONTENT_GIT_BRANCH}" "${CONTENT_SOURCE_DIR}")
 	echo "Pulling service.json repo..."
-	service_deploy_needed=$(/usr/bin/time -f 'service-pull: %e\n' "${SCRIPTS_DIR}/pull_repo.sh" "${SERVICE_GIT_ADDRESS}" "${SERVICE_GIT_BRANCH}" "${SERVICE_SOURCE_DIR}")
+	service_deploy_needed=$(/usr/bin/time -f 'service-pull: %e' -a -o "${METRICS_FILE}" "${SCRIPTS_DIR}/pull_repo.sh" "${SERVICE_GIT_ADDRESS}" "${SERVICE_GIT_BRANCH}" "${SERVICE_SOURCE_DIR}")
 
 	if [ "${content_deploy_needed}" = true ] || [ "$service_deploy_needed" = true ]; then
 		echo "Change detected, re-deploy needed"
@@ -48,7 +51,7 @@ while :; do
 		cp -r "${CONTENT_SOURCE_DIR}/." "${CONTENT_TARGET_DIR}/"
 		rm -rf "${CONTENT_TARGET_DIR}/.git"
 		cp -r "${SERVICE_SOURCE_DIR}/." "${SERVICE_TARGET_DIR}/"
-		/usr/bin/time -f 'deploy: %e\n' "${SCRIPTS_DIR}/deploy.sh" "${CONTENT_TARGET_DIR}" "${SERVICE_TARGET_DIR}"
+		"${SCRIPTS_DIR}/deploy.sh" "${CONTENT_TARGET_DIR}" "${SERVICE_TARGET_DIR}"
 		echo "Changes deployed"
 	else
 		printf 'Build not needed (content commit %s), skipping...\n' "${content_commit}"

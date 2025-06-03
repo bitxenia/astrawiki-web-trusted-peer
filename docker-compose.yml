@@ -40,6 +40,7 @@ services:
     volumes:
       - target:/usr/share/target
       - ./data/ipns_data:/usr/share/ipns_data
+      - ./metrics:/usr/share/metrics
     networks:
       - trusted_peer_net
 
